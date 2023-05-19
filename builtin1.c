@@ -1,40 +1,6 @@
 #include "shell.h"
 
 /**
- * Implements the alias built-in command.
- * @info: Pointer to the info_t structure.
- * Return: Always 0.
- */
-int handleAlias(info_t *info)
-{
-    int i = 0;
-    char *equal_sign = NULL;
-    list_t *node = NULL;
-
-    if (info->argc == 1)
-    {
-        node = info->alias;
-        while (node)
-        {
-            print_alias(node);
-            node = node->next;
-        }
-        return 0;
-    }
-
-    for (i = 1; info->argv[i]; i++)
-    {
-        equal_sign = _strchr(info->argv[i], '=');
-        if (equal_sign)
-            set_alias(info, info->argv[i]);
-        else
-            print_alias(node_starts_with(info->alias, info->argv[i], '='));
-    }
-
-    return 0;
-}
-
-/**
  * Unsets an alias.
  * @info: Pointer to the info_t structure.
  * @str: The string alias.
@@ -109,4 +75,39 @@ int print_alias(list_t *node)
     return 1;
 }
 
+
+
+/**
+ * Implements the alias built-in command.
+ * @info: Pointer to the info_t structure.
+ * Return: Always 0.
+ */
+int handleAlias(info_t *info)
+{
+    int i = 0;
+    char *equal_sign = NULL;
+    list_t *node = NULL;
+
+    if (info->argc == 1)
+    {
+        node = info->alias;
+        while (node)
+        {
+            print_alias(node);
+            node = node->next;
+        }
+        return 0;
+    }
+
+    for (i = 1; info->argv[i]; i++)
+    {
+        equal_sign = _strchr(info->argv[i], '=');
+        if (equal_sign)
+            set_alias(info, info->argv[i]);
+        else
+            print_alias(node_starts_with(info->alias, info->argv[i], '='));
+    }
+
+    return 0;
+}
 
