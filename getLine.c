@@ -133,16 +133,16 @@ int getLine(info_t *info, char **ptr, size_t *length)
     if (bytesRead == -1 || (bytesRead == 0 && len == 0))
         return (-1);
 
-    c = _strchr(buffer + i, '\n');
+    c = findCharacter(buffer + i, '\n');
     k = c ? 1 + (unsigned int)(c - buffer) : len;
     newPtr = _realloc(p, size, size ? size + k : k + 1);
     if (!newPtr)
         return (p ? free(p), -1 : -1);
 
     if (size)
-        _strncat(newPtr, buffer + i, k - i);
+        concatStrings(newPtr, buffer + i, k - i);
     else
-        _strncpy(newPtr, buffer + i, k - i + 1);
+        copyString(newPtr, buffer + i, k - i + 1);
 
     size += k - i;
     i = k;
