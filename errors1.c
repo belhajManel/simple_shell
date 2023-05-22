@@ -55,7 +55,7 @@ void printError(info_t *info, char *errorMsg)
  */
 int printDecimal(int input, int fd)
 {
-    int (*putCharFunc)(char) = _putChar;
+    int (*putCharFunc)(char) = printCharacter;
     int i, count = 0;
     unsigned int absoluteValue, current;
 

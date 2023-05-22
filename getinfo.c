@@ -31,7 +31,7 @@ void setShellInfo(shell_info_t *shell_info, char **av)
 			shell_info->argv = malloc(sizeof(char *) * 2);
 			if (shell_info->argv)
 			{
-				shell_info->argv[0] = _strdup(shell_info->arg);
+				shell_info->argv[0] = stringDuplicate(shell_info->arg);
 				shell_info->argv[1] = NULL;
 			}
 		}
@@ -59,16 +59,16 @@ void freeShellInfo(shell_info_t *shell_info, int all)
 		if (!shell_info->cmd_buf)
 			free(shell_info->arg);
 		if (shell_info->env)
-			free_list(&(shell_info->env));
+			freeList(&(shell_info->env));
 		if (shell_info->history)
-			free_list(&(shell_info->history));
+			freeList(&(shell_info->history));
 		if (shell_info->alias)
-			free_list(&(shell_info->alias));
+			freeList(&(shell_info->alias));
 		ffree(shell_info->environ);
 			shell_info->environ = NULL;
 		bfree((void **)shell_info->cmd_buf);
 		if (shell_info->readfd > 2)
 			close(shell_info->readfd);
-		_putchar(BUF_FLUSH);
+		printCharacter(BUF_FLUSH);
 	}
 }

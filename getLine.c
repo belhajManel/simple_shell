@@ -55,7 +55,7 @@ ssize_t getInput(info_t *info)
     ssize_t bytesRead = 0;
     char **bufferPointer = &(info->argument), *p;
 
-    _putchar(BUF_FLUSH);
+    printCharacter(BUF_FLUSH);
     bytesRead = bufferInput(info, &buffer, &length);
     if (bytesRead == -1)
         return (-1);
@@ -80,7 +80,7 @@ ssize_t getInput(info_t *info)
         }
 
         *bufferPointer = p;
-        return (_strlen(p));
+        return (stringLength(p));
     }
 
     *bufferPointer = buffer;
@@ -162,7 +162,7 @@ int getLine(info_t *info, char **ptr, size_t *length)
  */
 void handleSigint(__attribute__((unused))int signalNumber)
 {
-    _puts("\n");
-    _puts("$ ");
-    _putchar(BUF_FLUSH);
+    printString("\n");
+    printString("$ ");
+    printCharacter(BUF_FLUSH);
 }
