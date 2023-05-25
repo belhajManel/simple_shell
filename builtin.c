@@ -53,28 +53,28 @@ int changeDirectory(info_t *info)
     char *cwd, *dir, buffer[1024];
     int chdir_ret;
 
-    cwd = getCwd(buffer, 1024);
+    cwd = getcwd(buffer, 1024);
     if (!cwd)
         printString("TODO: >>getcwd failure emsg here<<\n");
     if (!info->argv[1])
     {
-        dir = getEnv(info, "HOME=");
+        dir = _getenv(info, "HOME=");
         if (!dir)
-            chdir_ret = chdir((dir = getEnv(info, "PWD=")) ? dir : "/");
+            chdir_ret = chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
         else
             chdir_ret = chdir(dir);
     }
     else if (stringCompare(info->argv[1], "-") == 0)
     {
-        if (!getEnv(info, "OLDPWD="))
+        if (!_getenv(info, "OLDPWD="))
         {
             printString(cwd);
             printCharacter('\n');
             return 1;
         }
-        printString(getEnv(info, "OLDPWD="));
+        printString(_getenv(info, "OLDPWD="));
         printCharacter('\n');
-        chdir_ret = chdir((dir = getEnv(info, "OLDPWD=")) ? dir : "/");
+        chdir_ret = chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
     }
     else
         chdir_ret = chdir(info->argv[1]);
@@ -86,10 +86,8 @@ int changeDirectory(info_t *info)
     }
     else
     {
-        setEnv(info, "OLDPWD", getEnv(info, "PWD="));
-        setEnv(info, "PWD", getCwd(buffer, 1024));
+        setEnv(info, "OLDPWD", _getenv(info, "PWD="));
+        setEnv(info, "PWD", getcwd(buffer, 1024));
     }
     return 0;
 }
-
-

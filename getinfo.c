@@ -4,7 +4,7 @@
  * clearShellInfo - clears setShellInfo struct fields
  * @shell_info: struct address
  */
-void clearShellInfo(shell_info_t *shell_info)
+void clearShellInfo(info_t *shell_info)
 {
 	shell_info->arg = NULL;
 	shell_info->argv = NULL;
@@ -17,7 +17,7 @@ void clearShellInfo(shell_info_t *shell_info)
  * @shell_info: struct address
  * @av: argument vector
  */
-void setShellInfo(shell_info_t *shell_info, char **av)
+void setShellInfo(info_t *shell_info, char **av)
 {
 	int i = 0;
 
@@ -49,7 +49,7 @@ void setShellInfo(shell_info_t *shell_info, char **av)
  * @shell_info: struct address
  * @all: flag to free all fields
  */
-void freeShellInfo(shell_info_t *shell_info, int all)
+void freeShellInfo(info_t *shell_info, int all)
 {
 	ffree(shell_info->argv);
 	shell_info->argv = NULL;

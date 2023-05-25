@@ -6,7 +6,7 @@
  * Return: 0 on success, 1 on error
  *       -1 on error
  */
-int convertStringToInt(char *str)
+int convertStringToInt(char *s)
 {
     int i = 0;
     unsigned long int result = 0;
@@ -60,7 +60,7 @@ int printDecimal(int input, int fd)
     unsigned int absoluteValue, current;
 
     if (fd == STDERR_FILENO)
-        putCharFunc = _eputChar;
+        putCharFunc = _eputchar;
     if (input < 0)
     {
         absoluteValue = -input;
@@ -94,7 +94,7 @@ int printDecimal(int input, int fd)
  * Return: string
  */
 
-char convertNumber(long int num, int base, int flags)
+char* convertNumber(long int num, int base, int flags)
 {
     static char *charArray;
     static char buffer[50];

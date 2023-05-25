@@ -7,10 +7,10 @@
  */
 char **getEnviron(info_t *info)
 {
-	if (!info->environ || info->envChanged)
+	if (!info->environ || info->env_changed)
 	{
 		info->environ = listToStrings(info->env);
-		info->envChanged = 0;
+		info->env_changed = 0;
 	}
 
 	return (info->environ);
@@ -35,7 +35,7 @@ int unsetEnv(info_t *info, char *var)
 		p = startsWith(node->str, var);
 		if (p && *p == '=')
 		{
-			info->envChanged = deleteNodeAtIndex(&(info->env), i);
+			info->env_changed = deleteNodeAtIndex(&(info->env), i);
 			i = 0;
 			node = info->env;
 			continue;
@@ -43,7 +43,7 @@ int unsetEnv(info_t *info, char *var)
 		node = node->next;
 		i++;
 	}
-	return (info->envChanged);
+	return (info->env_changed);
 }
 
 /**
@@ -75,13 +75,13 @@ int setEnv(info_t *info, char *var, char *value)
 		{
 			free(node->str);
 			node->str = buf;
-			info->envChanged = 1;
+			info->env_changed = 1;
 			return (0);
 		}
 		node = node->next;
 	}
-	addNodeEnd(&(info->env), buf, 0);
+	addNode_end(&(info->env), buf, 0);
 	free(buf);
-	info->envChanged = 1;
+	info->env_changed = 1;
 	return (0);
 }

@@ -30,12 +30,12 @@ ssize_t bufferInput(info_t *info, char **buffer, size_t *length)
                 (*buffer)[bytesRead - 1] = '\0';
                 bytesRead--;
             }
-            info->lineCountFlag = 1;
+            info->linecount_flag = 1;
             removeComments(*buffer);
-            buildHistoryList(info, *buffer, info->historyCount++);
+            buildHistoryList(info, *buffer, info->histcount++);
             {
                 *length = bytesRead;
-                info->commandBuffer = buffer;
+                info->commandbuffer = *buffer;
             }
         }
     }
@@ -53,7 +53,7 @@ ssize_t getInput(info_t *info)
     static char *buffer;
     static size_t i, j, length;
     ssize_t bytesRead = 0;
-    char **bufferPointer = &(info->argument), *p;
+    char **bufferPointer = &(info->arg), *p;
 
     printCharacter(BUF_FLUSH);
     bytesRead = bufferInput(info, &buffer, &length);

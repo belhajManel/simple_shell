@@ -95,13 +95,13 @@ int putCharToFd(char c, int fd);
 int printToFd(char *str, int fd);
 
 /* string.c */
-int stringLength(char *);
-int stringCompare(char *, char *);
+size_t stringLength(const char *str);
+int stringCompare(const char *str1, const char *str2);
 char *startsWith(const char *, const char *);
-char *stringConcat(char *, char *);
+char *stringConcat(char *dest, const char *src);
 
 /* string1.c */
-char *stringCopy(char *, char *);
+char *stringCopy(char *destination, const char *source);
 char *stringDuplicate(const char *);
 void printString(char *);
 int printCharacter(char);
@@ -133,13 +133,15 @@ int stringToInteger(char *);
 int convertStringToInt(char *);
 void printError(info_t *, char *);
 int printDecimal(int, int);
-char convertNumber(long int, int, int);
+char* convertNumber(long int, int, int);
 void removeComments(char *);
 
 /* builtin.c */
 int exitShell(info_t *);
 int changeDirectory(info_t *);
 int displayHelp(info_t *);
+int safeAtoi(const char *str);
+void print_error(info_t* info, const char*);
 
 /* builtin1.c */
 int displayHistory(info_t *);
@@ -151,7 +153,7 @@ int getLine(info_t *, char **, size_t *);
 void handleSigint(int);
 
 /* getinfo.c */
-void clearShellInfo(info_t *);
+void clearShellInfo(info_t *shell_info);
 void setShellInfo(info_t *, char **);
 void freeShellInfo(info_t *, int);
 

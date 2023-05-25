@@ -81,15 +81,15 @@ void printString(char *str)
 int printCharacter(char c)
 {
     static int i;
-    static char buffer[WRITE_BUFFER_SIZE];
+    static char buffer[WRITE_BUF_SIZE];
 
-    if (c == FLUSH_BUFFER || i >= WRITE_BUFFER_SIZE)
+    if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
     {
         write(1, buffer, i);
         i = 0;
     }
 
-    if (c != FLUSH_BUFFER)
+    if (c != BUF_FLUSH)
         buffer[i++] = c;
 
     return 1;
