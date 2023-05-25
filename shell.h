@@ -172,7 +172,6 @@ char *getHistoryFile(info_t *info);
 int writeHistory(info_t *info);
 int readHistory(info_t *info);
 int buildHistoryList(info_t *info, char *buf, int linecount);
-int buildHistoryList(info_t *info);
 
 /* lists.c */
 list_t *addNode(list_t **, const char *, int);
