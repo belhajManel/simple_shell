@@ -59,7 +59,7 @@ typedef struct passinfo
 	int cmd_buf_type; 
 	int readfd;
 	int histcount;
-	char **cmd_buf; 
+	char *cmd_buf; 
 	
 } info_t;
 
@@ -131,7 +131,9 @@ int stringToInteger(char *);
 
 /* errors1.c */
 int convertStringToInt(char *);
+void _eputs(const char *str);
 void printError(info_t *, char *);
+int _eputchar(char c);
 int printDecimal(int, int);
 char* convertNumber(long int, int, int);
 void removeComments(char *);

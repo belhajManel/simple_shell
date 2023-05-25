@@ -35,7 +35,7 @@ ssize_t bufferInput(info_t *info, char **buffer, size_t *length)
             buildHistoryList(info, *buffer, info->histcount++);
             {
                 *length = bytesRead;
-                info->commandbuffer = *buffer;
+                info->cmd_buf = *buffer;
             }
         }
     }
