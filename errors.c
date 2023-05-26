@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * printToStderr - prints an input string to stderr
- * @str:  the string to be printed
+ *_eputs - prints an input string
+ * @str: the string to be printed
  *
- * Return: void
+ * Return: Nothing
  */
-void printToStderr(char *str)
+void _eputs(char *str)
 {
 	int i = 0;
 
@@ -14,18 +14,19 @@ void printToStderr(char *str)
 		return;
 	while (str[i] != '\0')
 	{
-		putCharToStderr(str[i]);
+		_eputchar(str[i]);
 		i++;
 	}
 }
 
 /**
- * putCharToStderr -  vharacter c to stderr
- * @c: The character to print to stderr or flush the buffer
+ * _eputchar - writes the character c to stderr
+ * @c: The character to print
  *
- * Return: 1 if successful, -1 otherwise
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-int putCharToStderr(char c)
+int _eputchar(char c)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
@@ -41,13 +42,14 @@ int putCharToStderr(char c)
 }
 
 /**
- * putCharToFd - vharacter c to file descriptor fd
+ * _putfd - writes the character c to given fd
  * @c: The character to print
- * @fd: The file descriptor to write to
+ * @fd: The filedescriptor to write to
  *
- * Return: 1 if successful, -1 otherwise
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-int putCharToFd(char c, int fd)
+int _putfd(char c, int fd)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
@@ -63,13 +65,13 @@ int putCharToFd(char c, int fd)
 }
 
 /**
- * printToFd - prints an input string to a file descriptor
+ *_putsfd - prints an input string
  * @str: the string to be printed
- * @fd: the file descriptor to write to
+ * @fd: the filedescriptor to write to
  *
- * Return: The number of characters printed
+ * Return: the number of chars put
  */
-int printToFd(char *str, int fd)
+int _putsfd(char *str, int fd)
 {
 	int i = 0;
 
@@ -77,7 +79,7 @@ int printToFd(char *str, int fd)
 		return (0);
 	while (*str)
 	{
-		i += putCharToFd(*str++, fd);
+		i += _putfd(*str++, fd);
 	}
 	return (i);
 }

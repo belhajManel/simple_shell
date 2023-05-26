@@ -1,1 +1,1 @@
-A simple UNIX command interpreter.
+simple_shell

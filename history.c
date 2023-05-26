@@ -1,14 +1,39 @@
 #include "shell.h"
 
 /**
- * Retrieves the history file path.
- * @info: Pointer to the info_t structure.
- * Return: Allocated string containing the history file path.
+ * get_history_file - gets the history file
+ * @info: parameter struct
+ *
+ * Return: allocated string containg history file
  */
-int writeHistory(info_t *info)
+
+char *get_history_file(info_t *info)
+{
+	char *buf, *dir;
+
+	dir = _getenv(info, "HOME=");
+	if (!dir)
+		return (NULL);
+	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
+	if (!buf)
+		return (NULL);
+	buf[0] = 0;
+	_strcpy(buf, dir);
+	_strcat(buf, "/");
+	_strcat(buf, HIST_FILE);
+	return (buf);
+}
+
+/**
+ * write_history - creates a file, or appends to an existing file
+ * @info: the parameter struct
+ *
+ * Return: 1 on success, else -1
+ */
+int write_history(info_t *info)
 {
 	ssize_t fd;
-	char *filename = getHistoryFile(info);
+	char *filename = get_history_file(info);
 	list_t *node = NULL;
 
 	if (!filename)
@@ -20,7 +45,7 @@ int writeHistory(info_t *info)
 		return (-1);
 	for (node = info->history; node; node = node->next)
 	{
-		printStringfd(node->str, fd);
+		_putsfd(node->str, fd);
 		_putfd('\n', fd);
 	}
 	_putfd(BUF_FLUSH, fd);
@@ -29,42 +54,17 @@ int writeHistory(info_t *info)
 }
 
 /**
- * Writes the command history to a file.
- * @info: Pointer to the info_t structure.
- * Return: 1 on success, -1 on failure.
+ * read_history - reads history from file
+ * @info: the parameter struct
+ *
+ * Return: histcount on success, 0 otherwise
  */
-char *getHistoryFile(info_t *info)
-{
-	char *buf, *dir;
-
-	dir = _getenv(info, "HOME=");
-
-	if (!dir)
-		return (NULL);
-
-	buf = malloc(sizeof(char) * (stringLength(dir) +
-				stringLength(HIST_FILE) + 2));
-	if (!buf)
-		return (NULL);
-	buf[0] = '\0';
-	stringCopy(buf, dir);
-	stringConcat(buf, "/");
-	stringConcat(buf, HIST_FILE);
-	return (buf);
-}
-
-/**
- * Reads the command history from a file.
- * @info: Pointer to the info_t structure.
- * Return: The number of history entries read, or 0 on failure.
- */
-int readHistory(info_t *info)
+int read_history(info_t *info)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buf = NULL, *filename = getHistoryFile(info);
-
+	char *buf = NULL, *filename = get_history_file(info);
 
 	if (!filename)
 		return (0);
@@ -81,36 +81,55 @@ int readHistory(info_t *info)
 	if (!buf)
 		return (0);
 	rdlen = read(fd, buf, fsize);
-	buf[fsize] = '\0';
+	buf[fsize] = 0;
 	if (rdlen <= 0)
 		return (free(buf), 0);
 	close(fd);
 	for (i = 0; i < fsize; i++)
-	{
 		if (buf[i] == '\n')
 		{
-			buf[i] = '\0';
-			buildHistoryList(info, buf + last, linecount++);
+			buf[i] = 0;
+			build_history_list(info, buf + last, linecount++);
 			last = i + 1;
 		}
-	}
 	if (last != i)
-		buildHistoryList(info, buf + last, linecount++);
+		build_history_list(info, buf + last, linecount++);
 	free(buf);
 	info->histcount = linecount;
 	while (info->histcount-- >= HIST_MAX)
-		deleteNodeAtIndex(&(info->history), 0);
-
-	renumberHistory(info);
+		delete_node_at_index(&(info->history), 0);
+	renumber_history(info);
 	return (info->histcount);
 }
 
 /**
- * Renumbers the command history linked list after changes.
- * @info: Pointer to the info_t structure.
- * Return: The new histcount.
+ * build_history_list - adds entry to a history linked list
+ * @info: Structure containing potential arguments. Used to maintain
+ * @buf: buffer
+ * @linecount: the history linecount, histcount
+ *
+ * Return: Always 0
  */
-int renumberHistory(info_t *info)
+int build_history_list(info_t *info, char *buf, int linecount)
+{
+	list_t *node = NULL;
+
+	if (info->history)
+		node = info->history;
+	add_node_end(&node, buf, linecount);
+
+	if (!info->history)
+		info->history = node;
+	return (0);
+}
+
+/**
+ * renumber_history - renumbers the history linked list after changes
+ * @info: Structure containing potential arguments. Used to maintain
+ *
+ * Return: the new histcount
+ */
+int renumber_history(info_t *info)
 {
 	list_t *node = info->history;
 	int i = 0;
@@ -121,24 +140,4 @@ int renumberHistory(info_t *info)
 		node = node->next;
 	}
 	return (info->histcount = i);
-}
-
-/**
- * Adds an entry to the command history linked list.
- * @info: Pointer to the info_t structure.
- * @buf: The buffer containing the command.
- * @linecount: The history linecount.
- * Return: Always 0.
- */
-int buildHistoryList(info_t *info, char *buf, int linecount)
-{
-	list_t *node = NULL;
-
-	if (info->history)
-		node = info->history;
-	addNode_end(&node, buf, linecount);
-
-	if (!info->history)
-		info->history = node;
-	return (0);
 }
