@@ -9,19 +9,19 @@
  */
 char *stringCopy(char *destination, const char *source)
 {
-    int i = 0;
+	int i = 0;
 
-    if (destination == source || source == NULL)
-        return destination;
+	if (destination == source || source == NULL)
+		return (destination);
 
-    while (source[i])
-    {
-        destination[i] = source[i];
-        i++;
-    }
+	while (source[i])
+	{
+		destination[i] = source[i];
+		i++;
+	}
 
-    destination[i] = '\0';
-    return destination;
+	destination[i] = '\0';
+	return (destination);
 }
 
 /**
@@ -32,23 +32,23 @@ char *stringCopy(char *destination, const char *source)
  */
 char *stringDuplicate(const char *str)
 {
-    int length = 0;
-    char *ret;
+	int length = 0;
+	char *ret;
 
-    if (str == NULL)
-        return NULL;
+	if (str == NULL)
+		return (NULL);
 
-    while (*str++)
-        length++;
+	while (*str++)
+		length++;
 
-    ret = malloc(sizeof(char) * (length + 1));
-    if (!ret)
-        return NULL;
+	ret = malloc(sizeof(char) * (length + 1));
+	if (!ret)
+		return (NULL);
 
-    for (length++; length--;)
-        ret[length] = *--str;
+	for (length++; length--;)
+		ret[length] = *--str;
 
-    return ret;
+	return (ret);
 }
 
 /**
@@ -59,16 +59,16 @@ char *stringDuplicate(const char *str)
  */
 void printString(char *str)
 {
-    int i = 0;
+	int i = 0;
 
-    if (!str)
-        return;
+	if (!str)
+		return;
 
-    while (str[i] != '\0')
-    {
-        printCharacter(str[i]);
-        i++;
-    }
+	while (str[i] != '\0')
+	{
+		printCharacter(str[i]);
+		i++;
+	}
 }
 
 /**
@@ -80,17 +80,17 @@ void printString(char *str)
  */
 int printCharacter(char c)
 {
-    static int i;
-    static char buffer[WRITE_BUF_SIZE];
+	static int i;
+	static char buffer[WRITE_BUF_SIZE];
 
-    if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
-    {
-        write(1, buffer, i);
-        i = 0;
-    }
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(1, buffer, i);
+		i = 0;
+	}
 
-    if (c != BUF_FLUSH)
-        buffer[i++] = c;
+	if (c != BUF_FLUSH)
+		buffer[i++] = c;
 
-    return 1;
+	return (1);
 }

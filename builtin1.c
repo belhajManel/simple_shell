@@ -1,113 +1,112 @@
 #include "shell.h"
 
 /**
- * Unsets an alias.
+ * unset_alias - nsets an alias.
  * @info: Pointer to the info_t structure.
  * @str: The string alias.
  * Return: Always 0 on success, 1 on error.
  */
 int unset_alias(info_t *info, char *str)
 {
-    char *equal_sign, character;
-    int ret;
+	char *equal_sign, character;
+	int ret;
 
-    equal_sign = findCharacter(str, '=');
-    if (!equal_sign)
-        return 1;
-    character = *equal_sign;
-    *equal_sign = '\0';
-    ret = deleteNodeAtIndex(&(info->alias),
-                            getNodeIndex(info->alias, nodeStartsWith(info->alias, str, -1)));
-    *equal_sign = character;
-    return ret;
+	equal_sign = findCharacter(str, '=');
+	if (!equal_sign)
+		return (1);
+	character = *equal_sign;
+	*equal_sign = '\0';
+	ret = deleteNodeAtIndex(&(info->alias),
+			getNodeIndex(info->alias, nodeStartsWith(info->alias, str, -1)));
+	*equal_sign = character;
+	return (ret);
 }
 
 /**
- * Sets an alias.
+ * set_alias - Sets an alias.
  * @info: Pointer to the info_t structure.
  * @str: The string alias.
  * Return: Always 0 on success, 1 on error.
  */
 int set_alias(info_t *info, char *str)
 {
-    char *equal_sign;
+	char *equal_sign;
 
-    equal_sign = findCharacter(str, '=');
-    if (!equal_sign)
-        return 1;
-    if (!*++equal_sign)
-        return unset_alias(info, str);
+	equal_sign = findCharacter(str, '=');
+	if (!equal_sign)
+		return (1);
+	if (!*++equal_sign)
+		return (unset_alias(info, str));
 
-    unset_alias(info, str);
-    return addNode_end(&(info->alias), str, 0) == NULL;
+	unset_alias(info, str);
+	return (addNode_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
- * Displays the command history list, with line numbers.
+ * displayHistory - Displays the command history list, with line numbers.
  * @info: Pointer to the info_t structure.
  * Return: Always 0.
  */
 int displayHistory(info_t *info)
 {
-    printList(info->history);
-    return 0;
+	printList(info->history);
+	return (0);
 }
 
 /**
- * Prints an alias string.
+ * print_alias - Prints an alias string.
  * @node: The alias node.
  * Return: Always 0 on success, 1 on error.
  */
 int print_alias(list_t *node)
 {
-    char *equal_sign = NULL, *alias_string = NULL;
+	char *equal_sign = NULL, *alias_string = NULL;
 
-    if (node)
-    {
-        equal_sign = findCharacter(node->str, '=');
-        for (alias_string = node->str; alias_string <= equal_sign; alias_string++)
-            printCharacter(*alias_string);
-        printCharacter('\'');
-        printString(equal_sign + 1);
-        printString("'\n");
-        return 0;
-    }
-    return 1;
+	if (node)
+	{
+		equal_sign = findCharacter(node->str, '=');
+		for (alias_string = node->str; alias_string <= equal_sign; alias_string++)
+			printCharacter(*alias_string);
+		printCharacter('\'');
+		printString(equal_sign + 1);
+		printString("'\n");
+		return (0);
+	}
+	return (1);
 }
 
 
 
 /**
- * Implements the alias built-in command.
+ * handleAlias - Implements the alias built-in command.
  * @info: Pointer to the info_t structure.
  * Return: Always 0.
  */
 int handleAlias(info_t *info)
 {
-    int i = 0;
-    char *equal_sign = NULL;
-    list_t *node = NULL;
+	int i = 0;
+	char *equal_sign = NULL;
+	list_t *node = NULL;
 
-    if (info->argc == 1)
-    {
-        node = info->alias;
-        while (node)
-        {
-            print_alias(node);
-            node = node->next;
-        }
-        return 0;
-    }
+	if (info->argc == 1)
+	{
+		node = info->alias;
+		while (node)
+		{
+			print_alias(node);
+			node = node->next;
+		}
+		return (0);
+	}
 
-    for (i = 1; info->argv[i]; i++)
-    {
-        equal_sign = findCharacter(info->argv[i], '=');
-        if (equal_sign)
-            set_alias(info, info->argv[i]);
-        else
-            print_alias(nodeStartsWith(info->alias, info->argv[i], '='));
-    }
+	for (i = 1; info->argv[i]; i++)
+	{
+		equal_sign = findCharacter(info->argv[i], '=');
+		if (equal_sign)
+			set_alias(info, info->argv[i]);
+		else
+			print_alias(nodeStartsWith(info->alias, info->argv[i], '='));
+	}
 
-    return 0;
+	return (0);
 }
-

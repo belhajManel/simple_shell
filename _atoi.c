@@ -1,24 +1,25 @@
 #include "shell.h"
 
 /**
- * Checks if character is a delimeter
+ * isDelimiter - Checks if character is a delimeter
  * @c: the char to check
  * @delim: the delimeter string
  * Return: 1 if the character is a delimiter, 0 otherwise.
  */
 int isDelimiter(char c, char *delim)
 {
-	while (*delim) 
-    {
-        if (*delim++ == c)
+	while (*delim)
+	{
+		if (*delim++ == c)
 			return (1);
-    }
-		
+	}
+
 	return (0);
 }
 
 /**
- * Checks if the shell is running in interactive mode.
+ * determineInteractiveMode - Checks if the shell is
+ * running in interactive mode.
  * @info: Pointer to the info_t structure.
  *
  * Return: 1 if interactive mode, 0 otherwise
@@ -29,7 +30,7 @@ int determineInteractiveMode(info_t *info)
 }
 
 /**
- * Converts a string to an integer.
+ * stringToInteger - Converts a string to an integer.
  * @s: the string to be converted
  * Return: The converted number if successful, 0 otherwise.
  */
@@ -63,7 +64,7 @@ int stringToInteger(char *s)
 }
 
 /**
- *  Checks if a character is alphabetic.
+ * isAlphabetic - Checks if a character is alphabetic.
  *  @c: The character to input
  *  Return: 1 if the character is alphabetic, 0 otherwise.
  */

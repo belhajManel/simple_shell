@@ -8,15 +8,15 @@
  */
 size_t stringLength(const char *str)
 {
-    size_t length = 0;
+	size_t length = 0;
 
-    if (str == NULL)
-        return 0;
+	if (str == NULL)
+		return (0);
 
-    while (str[length] != '\0')
-        length++;
+	while (str[length] != '\0')
+		length++;
 
-    return length;
+	return (length);
 }
 
 /**
@@ -24,17 +24,19 @@ size_t stringLength(const char *str)
  * @str1: The first string.
  * @str2: The second string.
  *
- * Return: Negative if str1 < str2, positive if str1 > str2, zero if str1 == str2.
+ * Return: Negative if str1 < str2,
+ * positive if str1 > str2,
+ * zero if str1 == str2.
  */
 int stringCompare(const char *str1, const char *str2)
 {
-    while (*str1 && (*str1 == *str2))
-    {
-        str1++;
-        str2++;
-    }
+	while (*str1 && (*str1 == *str2))
+	{
+		str1++;
+		str2++;
+	}
 
-    return *(unsigned char *)str1 - *(unsigned char *)str2;
+	return (*(unsigned char *)str1 - *(unsigned char *)str2);
 }
 
 /**
@@ -46,15 +48,15 @@ int stringCompare(const char *str1, const char *str2)
  */
 char *startsWith(const char *haystack, const char *needle)
 {
-    while (*needle)
-    {
-        if (*haystack != *needle)
-            return NULL;
-        haystack++;
-        needle++;
-    }
+	while (*needle)
+	{
+		if (*haystack != *needle)
+			return (NULL);
+		haystack++;
+		needle++;
+	}
 
-    return (char *)haystack;
+	return ((char *)haystack);
 }
 
 /**
@@ -66,19 +68,19 @@ char *startsWith(const char *haystack, const char *needle)
  */
 char *stringConcat(char *dest, const char *src)
 {
-    char *temp = dest;
+	char *temp = dest;
 
-    while (*dest)
-        dest++;
+	while (*dest)
+		dest++;
 
-    while (*src)
-    {
-        *dest = *src;
-        dest++;
-        src++;
-    }
+	while (*src)
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
 
-    *dest = '\0';
+	*dest = '\0';
 
-    return temp;
+	return (temp);
 }

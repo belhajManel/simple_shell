@@ -55,12 +55,10 @@ typedef struct passinfo
 	char *path;
 	int argc;
 	unsigned int line_count;
-	
-	int cmd_buf_type; 
+	int cmd_buf_type;
 	int readfd;
 	int histcount;
-	char *cmd_buf; 
-	
+	char *cmd_buf;
 } info_t;
 
 #define INFO_INIT \
@@ -135,7 +133,7 @@ void _eputs(const char *str);
 void printError(info_t *, char *);
 int _eputchar(char c);
 int printDecimal(int, int);
-char* convertNumber(long int, int, int);
+char *convertNumber(long int, int, int);
 void removeComments(char *);
 
 /* builtin.c */
@@ -143,7 +141,7 @@ int exitShell(info_t *);
 int changeDirectory(info_t *);
 int displayHelp(info_t *);
 int safeAtoi(const char *str);
-void print_error(info_t* info, const char*);
+void print_error(info_t *info, const char*);
 
 /* builtin1.c */
 int displayHistory(info_t *);
@@ -173,8 +171,11 @@ int setEnv(info_t *, char *, char *);
 
 /* history.c */
 char *getHistoryFile(info_t *info);
+void printStringfd(const char *str, int fd);
 int writeHistory(info_t *info);
 int readHistory(info_t *info);
+void _putfd(char c, int fd);
+int renumberHistory(info_t *info);
 int buildHistoryList(info_t *info, char *buf, int linecount);
 
 /* lists.c */
@@ -190,6 +191,9 @@ char **listToStrings(list_t *);
 size_t printList(const list_t *);
 list_t *nodeStartsWith(list_t *, char *, char);
 ssize_t getNodeIndex(list_t *, list_t *);
+
+/* main.c */
+int main(int ac, char **av);
 
 /* vars.c */
 int isChain(info_t *, char *, size_t *);
